@@ -49,18 +49,25 @@ const applyScale = (svgString, [width, height]) => {
 const applyColor = (svgString, fillColor) => {
   return svgString.replace(/currentColor/gim, `${fillColor}`);;
 };
-
 const texToSvg = (textext = "", fontSize = 8) => {
   if (!textext) {
     return "";
   }
+  //split to arr
+  const textArr = textext.split(' ')
+  const findEqual = textArr.filter((item, index) => item === '=')
+  let text2 = textext
+  //break lines
+  if (findEqual.length > 1) {
+    text2 = '\\displaylines{' + textext.replace(/(?<=^([^=]*=).*?)=/g,'\\\\=') + '}'
+  }
   const tex = new TeX({ packages: params.packages.split(/\s*,\s*/) });
   const svg = new SVG({ fontCache: params.fontCache ? "local" : "none" });
   const html = mathjax.document("", { InputJax: tex, OutputJax: svg });
-  const node = html.convert(textext, {
+  const node = html.convert(text2, {
     display: true,
     em: params.em,
-    ex: params.ex
+    ex: params.ex,
   });
 
   let svgString = adaptor.outerHTML(node) || "";
