@@ -58,9 +58,9 @@ const texToSvg = (textext = "", fontSize = 8) => {
   const findEqual = textArr.filter((item, index) => item === '=')
   let text2 = textext
   //break lines
-  if (findEqual.length > 1) {
-    text2 = '\\displaylines{' + textext.replace(/(?<=^([^=]*=).*?)=/g,'\\\\=') + '}'
-  }
+  // if (findEqual.length > 1) {
+  //   text2 = '\\displaylines{' + textext.replace(/(?<=^([^=]*=).*?)=/g,'\\\\=') + '}'
+  // }
   const tex = new TeX({ packages: params.packages.split(/\s*,\s*/) });
   const svg = new SVG({ fontCache: params.fontCache ? "local" : "none" });
   const html = mathjax.document("", { InputJax: tex, OutputJax: svg });
